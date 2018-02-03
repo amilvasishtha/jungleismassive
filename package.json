@@ -16,11 +16,11 @@
     "url": "https://github.com/amilvasishtha/jungleismassive/issues"
   },
   "dependencies": {
-    "body-parser": "~1.5.2",
-    "express": "^4.7.4",
-    "method-override": "~2.1.2",
-    "mongoose": "^3.6.20",
-    "morgan": "~1.2.2"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "method-override": "^2.3.10",
+    "mongoose": "^5.0.3",
+    "morgan": "^1.9.0"
   },
   "homepage": "https://github.com/amilvasishtha/jungleismassive#readme"
 }

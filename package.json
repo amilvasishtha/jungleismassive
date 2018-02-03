@@ -22,5 +22,8 @@
     "mongoose": "^5.0.3",
     "morgan": "^1.9.0"
   },
-  "homepage": "https://github.com/amilvasishtha/jungleismassive#readme"
+  "homepage": "https://github.com/amilvasishtha/jungleismassive#readme",
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  }
 }

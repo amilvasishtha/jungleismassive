@@ -2,7 +2,7 @@
   "name": "jungleismassive",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +14,13 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/amilvasishtha/jungleismassive/issues"
+  },
+  "dependencies": {
+    "body-parser": "~1.5.2",
+    "express": "^4.7.4",
+    "method-override": "~2.1.2",
+    "mongoose": "^3.6.20",
+    "morgan": "~1.2.2"
   },
   "homepage": "https://github.com/amilvasishtha/jungleismassive#readme"
 }

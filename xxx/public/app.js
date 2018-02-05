@@ -1,4 +1,4 @@
-var scotchTodo = angular.module('scotchTodo', []);
+var musicApp = angular.module('musicApp', []);
 
 function mainController($scope, $http) {
     $scope.formData = {};

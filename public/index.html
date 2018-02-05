@@ -20,7 +20,7 @@
     <!-- SPELLS -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
-    <script src="core.js"></script>
+    <script src="app.js"></script>
 
 </head>
 <!-- SET THE CONTROLLER AND GET ALL TODOS -->
@@ -29,38 +29,48 @@
 
     <!-- HEADER AND TODO COUNT -->
     <div class="jumbotron text-center">
-        <h1>I'm a Todo-aholic <span class="label label-info">{{ todos.length }}</span></h1>
+        <h1>Jack loves Drum & Bass</h1>
     </div>
 
-    <!-- TODO LIST -->
-    <div id="todo-list" class="row">
-        <div class="col-sm-4 col-sm-offset-4">
-
-            <!-- LOOP OVER THE TODOS IN $scope.todos -->
-            <div class="checkbox" ng-repeat="todo in todos">
-                <label>
-                    <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
-                </label>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- FORM TO CREATE TODOS -->
-    <div id="todo-form" class="row">
-        <div class="col-sm-8 col-sm-offset-2 text-center">
+    <!-- FORM TO CREATE SONGS -->
+    <div id="song-form" class="row">
+        <div class="col-sm-4 col-sm-offset-1 text-center">
             <form>
                 <div class="form-group">
-
-                    <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                    <input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
+                    <input type="text" class="form-control input-sm" placeholder="title" ng-model="formSongData.title">
+                    <input type="text" class="form-control input-sm" placeholder="artist" ng-model="formSongData.artist">
+                    <input type="number" class="form-control input-sm" placeholder="bpm" ng-model="formSongData.bpm">
+                    <input type="text" class="form-control input-sm" placeholder="key" ng-model="formSongData.key">
                 </div>
-
                 <!-- createToDo() WILL CREATE NEW TODOS -->
-                <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+                <button type="submit" class="btn btn-primary btn-lg" ng-click="createSong()">Add Song</button>
             </form>
         </div>
     </div>
+
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>BPM</th>
+                    <th>Key</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="song in songs" ng-click="deleteSong(song._id)">
+                    <td>{{ song.title }}</td>
+                    <td>{{ song.artist }}</td>
+                    <td>{{ song.bpm }}</td>
+                    <td>{{ song.key }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
 </div>
 

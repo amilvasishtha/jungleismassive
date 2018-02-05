@@ -22,10 +22,11 @@
     app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
     app.use(bodyParser.json());                                     // parse application/json
     app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
-    app.use(methodOverride());
+    // app.use(methodOverride());
+    app.use(methodOverride('X-HTTP-Method-Override')); 
 
     app.use(cookieParser()); // read cookies (needed for auth)
-    app.set('view engine', 'ejs'); // set up ejs for templating
+    // app.set('view engine', 'ejs'); // set up ejs for templating
 
     require('./config/passport')(passport); // pass passport for configuration
 
@@ -35,31 +36,21 @@
     app.use(passport.session()); // persistent login sessions
     app.use(flash()); // use connect-flash for flash messages stored in session
 
-    // routes ======================================================================
-    require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-
     // listen (start app with node server.js) ======================================
     app.listen(port);
     console.log("App listening on port " + port);
 
+    // expose app           
+    exports = module.exports = app;   
+
+        // routes ======================================================================
+    require('./app/routes/login.js')(app, passport); // load our routes and pass in our app and fully configured passport
+    require('./app/routes/song.js')(app);
 
     // application -------------------------------------------------------------
     // app.get('/', function(req, res) {
     //     res.sendFile('./public/index.html', { root: __dirname }); // load the single view file (angular will handle the page changes on the front-end)
     // });
-
-    // define model =================
-    // var Todo = mongoose.model('Todo', {
-    //     text : String
-    // });
-
-    // var Song = mongoose.model('Song', {
-    //     title : String,
-    //     artist : String,
-    //     bpm : Number,
-    //     key : String
-    // });
-
 
     // routes ======================================================================
 

@@ -26,7 +26,7 @@
     app.use(methodOverride('X-HTTP-Method-Override')); 
 
     app.use(cookieParser()); // read cookies (needed for auth)
-    // app.set('view engine', 'ejs'); // set up ejs for templating
+    app.set('view engine', 'ejs'); // set up ejs for templating
 
     require('./config/passport')(passport); // pass passport for configuration
 

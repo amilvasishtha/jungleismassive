@@ -1,0 +1,1 @@
+angular.module('musicApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'SongCtrl', 'SongService']);

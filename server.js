@@ -48,9 +48,9 @@
     require('./app/routes/song.js')(app);
 
     // application -------------------------------------------------------------
-    // app.get('/', function(req, res) {
-    //     res.sendFile('./public/index.html', { root: __dirname }); // load the single view file (angular will handle the page changes on the front-end)
-    // });
+    app.get('*', function(req, res) {
+        res.sendFile('./public/index.html', { root: __dirname }); // load the single view file (angular will handle the page changes on the front-end)
+    });
 
     // routes ======================================================================
 

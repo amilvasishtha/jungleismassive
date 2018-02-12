@@ -1,13 +1,16 @@
+//NOT IN USE
+
 module.exports = function(app, passport) {
+
     var express  = require('express');
     var router = express.Router();
 
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
-    router.get('/', function(req, res) {
-        res.render('index.ejs');
-    });
+    // router.get('/', function(req, res) {
+    //     res.render('index.ejs');
+    // });
 
     // PROFILE SECTION =========================
     router.get('/profile', isLoggedIn, function(req, res) {
@@ -27,11 +30,11 @@ module.exports = function(app, passport) {
 // =============================================================================
 
     // locally --------------------------------
-        // LOGIN ===============================
-        // show the login form
-        router.get('/login', function(req, res) {
-            res.render('login.ejs', { message: req.flash('loginMessage') });
-        });
+        // // LOGIN ===============================
+        // // show the login form
+        // router.get('/login', function(req, res) {
+        //     res.render('login.ejs', { message: req.flash('loginMessage') });
+        // });
 
         // process the login form
         router.post('/login', passport.authenticate('local-login', {
@@ -40,11 +43,11 @@ module.exports = function(app, passport) {
             failureFlash : true // allow flash messages
         }));
 
-        // SIGNUP =================================
-        // show the signup form
-        router.get('/signup', function(req, res) {
-            res.render('signup.ejs', { message: req.flash('loginMessage') });
-        });
+        // // SIGNUP =================================
+        // // show the signup form
+        // router.get('/signup', function(req, res) {
+        //     res.render('signup.ejs', { message: req.flash('loginMessage') });
+        // });
 
         // process the signup form
         router.post('/signup', passport.authenticate('local-signup', {

@@ -14,11 +14,25 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             controller: 'SongController'
         })
 
+        .when('/login', {
+            templateUrl: 'views/login.html',
+            controller: 'LoginController'
+        })
+
+        .when('/logout', {
+            controller: 'LogoutController'
+        })
+
+        .when('/register', {
+            templateUrl: 'views/register.html',
+            controller: 'RegisterController'
+        })
+
+        .otherwise({
+            redirectTo: '/'
+        })
+
         ;
-        // .when('/login', {
-        //     templateUrl: 'views/login.html',
-        //     controller: 'LoginController'
-        // });
 
     $locationProvider.html5Mode(true);
 

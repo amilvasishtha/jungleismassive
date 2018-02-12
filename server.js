@@ -1,111 +1,51 @@
-    // set up ========================
-    var express  = require('express');
-    var app      = express();                               // create our app w/ express
-    var port     = process.env.PORT || 8080;
-    var mongoose = require('mongoose');                     // mongoose for mongodb
-    var morgan = require('morgan');             // log requests to the console (express4)
-    var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
-    var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
-    var passport = require('passport');
-    var flash    = require('connect-flash');
-    var cookieParser = require('cookie-parser');
-    var session      = require('express-session');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const passport = require('passport');
+const mongoose = require('mongoose');
+const configDB = require('./config/database');
 
-    var configDB = require('./config/database.js');
+// Connect To Database
+mongoose.Promise = require('bluebird');
+mongoose.connect(configDB.url, { promiseLibrary: require('bluebird') })
+  .then(() => console.log(`Connected to database ${configDB.url}`))
+  .catch((err) => console.log(`Database error: ${err}`));
 
-    // configuration =================
+const app = express();
 
-    mongoose.connect(configDB.url); // connect to our database
+exports = module.exports = app;
 
-    app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
-    app.use(morgan('dev'));                                         // log every request to the console
-    app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
-    app.use(bodyParser.json());                                     // parse application/json
-    app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
-    // app.use(methodOverride());
-    app.use(methodOverride('X-HTTP-Method-Override')); 
+const users = require('./app/routes/users');
+const songs = require('./app/routes/songs')(app);
 
-    app.use(cookieParser()); // read cookies (needed for auth)
-    app.set('view engine', 'ejs'); // set up ejs for templating
+// Port Number
+const port = 8080;
 
-    require('./config/passport')(passport); // pass passport for configuration
+// CORS Middleware
+app.use(cors());
 
-    // required for passport
-    app.use(session({ secret: 'boomboomboomboomiwantamzinmypum' })); // session secret
-    app.use(passport.initialize());
-    app.use(passport.session()); // persistent login sessions
-    app.use(flash()); // use connect-flash for flash messages stored in session
+// Set Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
 
-    // listen (start app with node server.js) ======================================
-    app.listen(port);
-    console.log("App listening on port " + port);
+// Body Parser Middleware
+app.use(bodyParser.json());
 
-    // expose app           
-    exports = module.exports = app;   
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
-        // routes ======================================================================
-    require('./app/routes/login.js')(app, passport); // load our routes and pass in our app and fully configured passport
-    require('./app/routes/song.js')(app);
+require('./config/passport')(passport);
 
-    // application -------------------------------------------------------------
-    app.get('*', function(req, res) {
-        res.sendFile('./public/index.html', { root: __dirname }); // load the single view file (angular will handle the page changes on the front-end)
-    });
+app.use('/users', users);
 
-    // routes ======================================================================
+// Index Route
+app.get('/', (req, res) => {
+  res.send('Invalid Endpoint');
+});
 
-    // api ---------------------------------------------------------------------
+// Start Server
+app.listen(port, () => {
+  console.log('Server started on port '+port);
+});
 
-    // app.get('/api/songs', function(req, res) {
-
-    //     // use mongoose to get all todos in the database
-    //     Song.find(function(err, songs) {
-
-    //         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-    //         if (err)
-    //             res.send(err)
-
-    //         res.json(songs); // return all todos in JSON format
-    //     });
-    // });
-
-    //     // create todo and send back all todos after creation
-    // app.post('/api/songs', function(req, res) {
-
-    //     // create a todo, information comes from AJAX request from Angular
-    //     Song.create({
-    //         title : req.body.title,
-    //         artist : req.body.artist,
-    //         bpm : req.body.bpm,
-    //         key : req.body.key,
-    //         done : false
-    //     }, function(err, song) {
-    //         if (err)
-    //             res.send(err);
-
-    //         // get and return all the todos after you create another
-    //         Song.find(function(err, songs) {
-    //             if (err)
-    //                 res.send(err)
-    //             res.json(songs);
-    //         });
-    //     });
-
-    // });
-
-    // // delete a todo
-    // app.delete('/api/songs/:song_id', function(req, res) {
-    //     Song.remove({
-    //         _id : req.params.song_id
-    //     }, function(err, song) {
-    //         if (err)
-    //             res.send(err);
-
-    //         // get and return all the todos after you create another
-    //         Song.find(function(err, songs) {
-    //             if (err)
-    //                 res.send(err)
-    //             res.json(songs);
-    //         });
-    //     });
-    // });

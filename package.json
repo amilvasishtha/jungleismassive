@@ -16,7 +16,7 @@
     "url": "https://github.com/amilvasishtha/jungleismassive/issues"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "*",
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
@@ -26,11 +26,16 @@
     "method-override": "^2.3.10",
     "mongoose": "^5.0.3",
     "morgan": "^1.9.0",
-    "passport": "^0.4.0",
-    "passport-facebook": "^2.1.1",
-    "passport-google-oauth": "^1.0.0",
-    "passport-local": "^1.0.0",
-    "angular": "1.6.3"
+    "passport": "*",
+    "passport-facebook": "*",
+    "passport-google-oauth": "*",
+    "passport-local": "*",
+    "passport-jwt": "*",
+    "jsonwebtoken": "*",
+    "lodash": "*",
+    "angular": "1.6.3",
+    "cors": "*",
+    "bluebird": "*"
   },
   "homepage": "https://github.com/amilvasishtha/jungleismassive#readme",
   "devDependencies": {

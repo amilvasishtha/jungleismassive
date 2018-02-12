@@ -26,7 +26,4 @@ angular.module('SongCtrl', []).controller('SongController', function($scope, Son
  			console.log("Song deleted!");
  	})};
 
-
-	console.log($scope.songs);
-
 });

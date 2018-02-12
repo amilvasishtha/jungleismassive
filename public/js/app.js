@@ -1,1 +1,1 @@
-angular.module('musicApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'SongCtrl', 'SongService']);
+angular.module('musicApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'SongCtrl', 'LoginCtrl', 'ProfileCtrl', 'SongService', 'AuthService']);

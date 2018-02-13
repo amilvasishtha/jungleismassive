@@ -29,19 +29,10 @@ module.exports = function(app) {
       });
 
     	Song.create(newSong, function(err, song) {
-    	    // if (err)
-    	    //     res.send(err);
-
-    	    // get and return all the songs after you create another
-    	    // Song.find(function(err, songs) {
-    	    //     if (err)
-    	    //         res.send(err)
-    	    //     res.json(songs);
-    	    // });
-
           if(err){
             res.json({success: false, msg:'Failed to add song'});
           } else {
+            // get and return all the songs after you create another
             Song.find(function(err, songs) {
       	        if (err)
       	            res.json({success: false, msg:'Failed to load songs'});
@@ -58,13 +49,13 @@ module.exports = function(app) {
             _id : req.params.song_id
         }, function(err, song) {
             if (err)
-                res.send(err);
+                res.json({success: false, msg:'Failed to delete song'});
 
             // get and return all the todos after you create another
             Song.find(function(err, songs) {
                 if (err)
-                    res.send(err)
-                res.json(songs);
+                    res.json({success: false, msg:'Failed to delete song'});
+                res.json({success: true, msg:'Song deleted successfully', songs});
             });
         });
     });

@@ -42,7 +42,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let song of songs">
+            <tr *ngFor="let song of songs" (click)="onClickDeleteSong(song._id)">
               <!-- ng-click="deleteSong(song._id) -->
                 <td>{{ song.title }}</td>
                 <td>{{ song.artist }}</td>

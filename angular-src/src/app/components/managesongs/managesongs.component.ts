@@ -56,4 +56,17 @@ export class ManagesongsComponent implements OnInit {
 
   }
 
+  onClickDeleteSong(song_id) {
+    this.songsService.deleteSong(song_id).subscribe(data => {
+      if(data.success) {
+        this.songs = data.songs;
+        this.flashMessage.show("Song removed from your library", {cssClass: 'alert-success', timeout: 3000});
+        this.router.navigate(['managesongs']);
+      } else {
+        this.flashMessage.show("Song not removed from your library", {cssClass: 'alert-danger', timeout: 3000});
+        this.router.navigate(['managesongs']);
+      }
+    });
+  }
+
 }

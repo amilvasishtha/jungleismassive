@@ -14,6 +14,12 @@ mongoose.connect(configDB.url, { promiseLibrary: require('bluebird') })
 
 const app = express();
 
+// CORS Middleware
+app.use(cors());
+
+// Body Parser Middleware
+app.use(bodyParser.json());
+
 exports = module.exports = app;
 
 const users = require('./app/routes/users');
@@ -22,14 +28,8 @@ const songs = require('./app/routes/songs')(app);
 // Port Number
 const port = 8080;
 
-// CORS Middleware
-app.use(cors());
-
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Body Parser Middleware
-app.use(bodyParser.json());
 
 // Passport Middleware
 app.use(passport.initialize());

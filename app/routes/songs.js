@@ -20,22 +20,34 @@ module.exports = function(app) {
 
     router.post('/songs', function(req, res) {
 
-    	Song.create({
-    	    title : req.body.title,
-    	    artist : req.body.artist,
-    	    bpm : req.body.bpm,
-    	    key : req.body.key,
-    	    done : false
-    	}, function(err, song) {
-    	    if (err)
-    	        res.send(err);
-	
-    	    // get and return all the todos after you create another
-    	    Song.find(function(err, songs) {
-    	        if (err)
-    	            res.send(err)
-    	        res.json(songs);
-    	    });
+      let newSong = new Song({
+        title : req.body.title,
+        artist : req.body.artist,
+        bpm : req.body.bpm,
+        key : req.body.key,
+        done: false
+      });
+
+    	Song.create(newSong, function(err, song) {
+    	    // if (err)
+    	    //     res.send(err);
+
+    	    // get and return all the songs after you create another
+    	    // Song.find(function(err, songs) {
+    	    //     if (err)
+    	    //         res.send(err)
+    	    //     res.json(songs);
+    	    // });
+
+          if(err){
+            res.json({success: false, msg:'Failed to add song'});
+          } else {
+            Song.find(function(err, songs) {
+      	        if (err)
+      	            res.json({success: false, msg:'Failed to load songs'});
+      	        res.json({success: true, msg:'Song added successfully', songs});
+      	    });
+          }
     	});
 
     });

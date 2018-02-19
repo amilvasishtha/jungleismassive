@@ -3,6 +3,36 @@
 </div>
 
 <div class="container">
+  <form>
+      <div class="form-group">
+          <label>Is the song on Spotify? Search below to autofill the details! </label>
+          <br>
+          <label>Artist and Track name:</label>
+          <input type="text" [(ngModel)]="searchStr" class="form-control" name="searchStr" placeholder="Search Spotify...">
+          <br>
+          <button type="button" class="btn btn-warning" value="Submit" (click)="searchSpotify()">Search Spotify!</button>
+      </div>
+  </form>
+</div>
+
+<div *ngIf="searchRes">
+  <div *ngFor="let res of searchRes">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="search=res well">
+          <h4 (click)="fillTrackDetails(res)">{{res.name}}</h4>
+          <div>
+            <strong>Artist: </strong>
+            <span *ngFor="let artist of res.artists">{{artist.name}} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
   <form (submit)="onCreateSongSubmit()">
       <div class="form-group">
           <label>Title</label>

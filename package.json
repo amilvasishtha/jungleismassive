@@ -23,6 +23,7 @@
     "express": "*",
     "jsonwebtoken": "*",
     "mongoose": "*",
+    "node-spotify-api": "^1.0.7",
     "passport": "*",
     "passport-jwt": "*"
   },

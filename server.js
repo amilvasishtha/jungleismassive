@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 exports = module.exports = app;
 
 const users = require('./app/routes/users');
+const spotify = require('./app/routes/spotify');
 const songs = require('./app/routes/songs')(app);
 
 // Port Number
@@ -38,6 +39,7 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 app.use('/users', users);
+app.use('/api/spotify', spotify);
 
 // Index Route
 app.get('/', (req, res) => {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SongsService} from '../../services/songs.service';
+import {SpotifyService} from '../../services/spotify.service';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {Router} from '@angular/router';
 
@@ -11,16 +12,26 @@ import {Router} from '@angular/router';
 export class ManagesongsComponent implements OnInit {
   title: String;
   artist: String;
-  bpm: Number;
-  key: String;
+  bpm: number;
+  key: number;
   songs: Object;
+  searchStr: string;
+  searchRes: Track[];
+  songAudioDetails: AudioDetails;
+  songKey: number;
+  songTempo: number;
 
   constructor(private songsService: SongsService,
+    private spotifyService: SpotifyService,
     private flashMessage: FlashMessagesService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.getSongsInLibrary();
+  }
+
+  getSongsInLibrary() {
     this.songsService.getSongs().subscribe(songs => {
       this.songs = songs;
       console.log("songs loaded!");
@@ -29,6 +40,40 @@ export class ManagesongsComponent implements OnInit {
       console.log(err);
       return false;
     });
+  }
+
+  searchSpotify() {
+    this.spotifyService.searchSpotify(this.searchStr).subscribe(res => {
+      this.searchRes = res.data.tracks.items;
+    });
+  }
+
+
+  fillTrackDetails(trackObj) {
+    this.spotifyService.getAudioAnalysis(trackObj.id).subscribe(res => {
+      if(res.success) {
+        console.log(res.data);
+        this.key = res.data.track.key;
+        this.bpm = res.data.track.tempo;
+        console.log(res.data.track.key);
+        console.log(res.data.track.tempo);
+      } else {
+        console.log("Spotify audio details failed");
+        this.flashMessage.show("Spotify audio details failed", {cssClass: 'alert-danger', timeout: 10000});
+      }
+    });
+
+    let trackArtistsStr = '';
+    let trackArtists =  trackObj.artists;
+    trackArtists.forEach(function (artist) {
+      trackArtistsStr = trackArtistsStr + artist.name + ', ';
+    });
+
+    this.title = trackObj.name;
+    this.artist = trackArtistsStr;
+    this.key = this.songKey;
+    this.bpm = this.songTempo;
+    this.searchRes = null;
   }
 
   onCreateSongSubmit() {
@@ -45,7 +90,7 @@ export class ManagesongsComponent implements OnInit {
         this.title = '';
         this.artist = '';
         this.bpm = null;
-        this.key = '';
+        this.key = null;
         this.flashMessage.show("Song added to your library", {cssClass: 'alert-success', timeout: 3000});
         this.router.navigate(['managesongs']);
       } else {
@@ -69,4 +114,27 @@ export class ManagesongsComponent implements OnInit {
     });
   }
 
+}
+
+export class Artist{
+  id: number;
+  name: string;
+  genres: any;
+  albums: Album[];
+}
+
+export class Track{
+  id: number;
+  name: string;
+  artists: Artist[];
+  album: Album;
+}
+
+export class Album{
+  id: number;
+}
+
+export class AudioDetails {
+  key: number;
+  tempo: number;
 }

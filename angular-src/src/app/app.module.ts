@@ -16,6 +16,7 @@ import { ManagesongsComponent } from './components/managesongs/managesongs.compo
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { SongsService } from './services/songs.service';
+import { SpotifyService } from './services/spotify.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -46,7 +47,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [ValidateService, AuthService, SongsService, AuthGuard],
+  providers: [ValidateService, AuthService, SongsService, SpotifyService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

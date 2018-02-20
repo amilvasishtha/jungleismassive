@@ -10,10 +10,10 @@ import {Router} from '@angular/router';
   styleUrls: ['./managesongs.component.css']
 })
 export class ManagesongsComponent implements OnInit {
-  title: String;
-  artist: String;
+  title: string;
+  artist: string;
   bpm: number;
-  key: number;
+  key: string;
   songs: Object;
   searchStr: string;
   searchRes: Track[];
@@ -34,7 +34,6 @@ export class ManagesongsComponent implements OnInit {
   getSongsInLibrary() {
     this.songsService.getSongs().subscribe(songs => {
       this.songs = songs;
-      console.log("songs loaded!");
     },
     err => {
       console.log(err);
@@ -48,15 +47,68 @@ export class ManagesongsComponent implements OnInit {
     });
   }
 
+  calculateMusicalKey(spotifyKey: number, spotifyMode: number) {
+    let tempKey = '';
+    switch (spotifyKey) {
+      case -1:
+        tempKey = 'Spotify key not populated';
+        break;
+      case 0:
+        tempKey = 'C';
+        break;
+      case 1:
+        tempKey = 'C#';
+        break;
+      case 2:
+        tempKey = 'D';
+        break;
+      case 3:
+        tempKey = 'D#';
+        break;
+      case 4:
+        tempKey = 'E';
+        break;
+      case 5:
+        tempKey = 'F';
+        break;
+      case 6:
+        tempKey = 'F#';
+        break;
+      case 7:
+        tempKey = 'G';
+        break;
+      case 8:
+        tempKey = 'G#';
+        break;
+      case 9:
+        tempKey = 'A';
+        break;
+      case 10:
+        tempKey = 'A#';
+        break;
+      case 11:
+        tempKey = 'B';
+        break;
+    };
+
+    if (spotifyMode == 0) {
+      tempKey = tempKey + 'min';
+    } else if (spotifyMode == 1) {
+      tempKey = tempKey + 'maj';
+    } else {
+      tempKey = tempKey + 'mode not populated in Spotify';
+    }
+
+     return tempKey;
+  }
+
 
   fillTrackDetails(trackObj) {
     this.spotifyService.getAudioAnalysis(trackObj.id).subscribe(res => {
       if(res.success) {
-        console.log(res.data);
-        this.key = res.data.track.key;
+        this.key = this.calculateMusicalKey(res.data.track.key, res.data.track.mode)
         this.bpm = res.data.track.tempo;
-        console.log(res.data.track.key);
-        console.log(res.data.track.tempo);
+
       } else {
         console.log("Spotify audio details failed");
         this.flashMessage.show("Spotify audio details failed", {cssClass: 'alert-danger', timeout: 10000});
@@ -71,8 +123,6 @@ export class ManagesongsComponent implements OnInit {
 
     this.title = trackObj.name;
     this.artist = trackArtistsStr;
-    this.key = this.songKey;
-    this.bpm = this.songTempo;
     this.searchRes = null;
   }
 
@@ -90,7 +140,7 @@ export class ManagesongsComponent implements OnInit {
         this.title = '';
         this.artist = '';
         this.bpm = null;
-        this.key = null;
+        this.key = '';
         this.flashMessage.show("Song added to your library", {cssClass: 'alert-success', timeout: 3000});
         this.router.navigate(['managesongs']);
       } else {
@@ -136,5 +186,6 @@ export class Album{
 
 export class AudioDetails {
   key: number;
+  mode: number;
   tempo: number;
 }

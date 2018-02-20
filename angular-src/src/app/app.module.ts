@@ -12,6 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ManagesongsComponent } from './components/managesongs/managesongs.component';
+import { MixComponent } from './components/mix/mix.component';
 
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
@@ -20,6 +21,7 @@ import { SpotifyService } from './services/spotify.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 
+
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
   {path:'register', component: RegisterComponent},
@@ -27,6 +29,7 @@ const appRoutes: Routes = [
   {path:'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
   {path:'managesongs', component: ManagesongsComponent, canActivate:[AuthGuard]},
+  {path:'mix', component: MixComponent, canActivate:[AuthGuard]},
 ]
 
 @NgModule({
@@ -38,7 +41,8 @@ const appRoutes: Routes = [
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
-    ManagesongsComponent
+    ManagesongsComponent,
+    MixComponent
   ],
   imports: [
     BrowserModule,

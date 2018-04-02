@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SongsService} from '../../services/songs.service';
+import {Song} from '../Song';
 
 @Component({
   selector: 'app-mix',
@@ -8,7 +9,7 @@ import {SongsService} from '../../services/songs.service';
 })
 export class MixComponent implements OnInit {
 
-  songs: Object;
+  songs: Song[];
   compatibleSongs: Object;
 
   constructor(private songsService: SongsService) { }
@@ -20,7 +21,7 @@ export class MixComponent implements OnInit {
   getSongsInLibrary() {
     this.songsService.getSongs().subscribe(songs => {
       this.songs = songs;
-      console.log("songs loaded!");
+      console.log("songs loaded in mix!");
     },
     err => {
       console.log(err);
@@ -30,6 +31,10 @@ export class MixComponent implements OnInit {
 
   updateCompatibleSongs(songid) {
     // this.compatibleSongs = songs
+  }
+
+  getCompatibleKeys() {
+
   }
 
 }

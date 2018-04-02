@@ -3,6 +3,7 @@ import {SongsService} from '../../services/songs.service';
 import {SpotifyService} from '../../services/spotify.service';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {Router} from '@angular/router';
+import {Song} from '../Song';
 
 @Component({
   selector: 'app-managesongs',
@@ -14,7 +15,7 @@ export class ManagesongsComponent implements OnInit {
   artist: string;
   bpm: number;
   key: string;
-  songs: Object;
+  songs: Song[];
   searchStr: string;
   searchRes: Track[];
   songAudioDetails: AudioDetails;
@@ -47,66 +48,10 @@ export class ManagesongsComponent implements OnInit {
     });
   }
 
-  calculateMusicalKey(spotifyKey: number, spotifyMode: number) {
-    let tempKey = '';
-    switch (spotifyKey) {
-      case -1:
-        tempKey = 'Spotify key not populated';
-        break;
-      case 0:
-        tempKey = 'C';
-        break;
-      case 1:
-        tempKey = 'C#';
-        break;
-      case 2:
-        tempKey = 'D';
-        break;
-      case 3:
-        tempKey = 'D#';
-        break;
-      case 4:
-        tempKey = 'E';
-        break;
-      case 5:
-        tempKey = 'F';
-        break;
-      case 6:
-        tempKey = 'F#';
-        break;
-      case 7:
-        tempKey = 'G';
-        break;
-      case 8:
-        tempKey = 'G#';
-        break;
-      case 9:
-        tempKey = 'A';
-        break;
-      case 10:
-        tempKey = 'A#';
-        break;
-      case 11:
-        tempKey = 'B';
-        break;
-    };
-
-    if (spotifyMode == 0) {
-      tempKey = tempKey + 'min';
-    } else if (spotifyMode == 1) {
-      tempKey = tempKey + 'maj';
-    } else {
-      tempKey = tempKey + 'mode not populated in Spotify';
-    }
-
-     return tempKey;
-  }
-
-
   fillTrackDetails(trackObj) {
     this.spotifyService.getAudioAnalysis(trackObj.id).subscribe(res => {
       if(res.success) {
-        this.key = this.calculateMusicalKey(res.data.track.key, res.data.track.mode)
+        this.key = Song.calculateMusicalKey(res.data.track.key, res.data.track.mode)
         this.bpm = res.data.track.tempo;
 
       } else {

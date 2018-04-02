@@ -14,7 +14,9 @@ export class ManagesongsComponent implements OnInit {
   title: string;
   artist: string;
   bpm: number;
-  key: string;
+  key: number;
+  mode: number;
+
   songs: Song[];
   searchStr: string;
   searchRes: Track[];
@@ -48,12 +50,16 @@ export class ManagesongsComponent implements OnInit {
     });
   }
 
+  calculateMusicalKey(spotifyKey: number, spotifyMode: number) {
+    return Song.calculateMusicalKey(spotifyKey, spotifyMode);
+  }
+
   fillTrackDetails(trackObj) {
     this.spotifyService.getAudioAnalysis(trackObj.id).subscribe(res => {
       if(res.success) {
-        this.key = Song.calculateMusicalKey(res.data.track.key, res.data.track.mode)
+        this.key = res.data.track.key;
+        this.mode = res.data.track.mode;
         this.bpm = res.data.track.tempo;
-
       } else {
         console.log("Spotify audio details failed");
         this.flashMessage.show("Spotify audio details failed", {cssClass: 'alert-danger', timeout: 10000});
@@ -76,7 +82,8 @@ export class ManagesongsComponent implements OnInit {
       title: this.title,
       artist: this.artist,
       bpm: this.bpm,
-      key: this.key
+      key: this.key,
+      mode: this.mode
     }
 
     this.songsService.createSong(song).subscribe(data => {
@@ -85,7 +92,8 @@ export class ManagesongsComponent implements OnInit {
         this.title = '';
         this.artist = '';
         this.bpm = null;
-        this.key = '';
+        this.key = null;
+        this.mode = null;
         this.flashMessage.show("Song added to your library", {cssClass: 'alert-success', timeout: 3000});
         this.router.navigate(['managesongs']);
       } else {

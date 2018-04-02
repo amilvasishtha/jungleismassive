@@ -25,6 +25,7 @@ module.exports = function(app) {
         artist : req.body.artist,
         bpm : req.body.bpm,
         key : req.body.key,
+        mode : req.body.mode,
         done: false
       });
 

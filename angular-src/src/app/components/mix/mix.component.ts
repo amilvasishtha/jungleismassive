@@ -29,6 +29,10 @@ export class MixComponent implements OnInit {
     });
   }
 
+  calculateMusicalKey(spotifyKey: number, spotifyMode: number) {
+    return Song.calculateMusicalKey(spotifyKey, spotifyMode);
+  }
+
   updateCompatibleSongs(songid) {
     // this.compatibleSongs = songs
   }

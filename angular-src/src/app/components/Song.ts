@@ -2,7 +2,8 @@ export class Song{
   title: string;
   artist: string;
   bpm: number;
-  key: string;
+  key: number;
+  mode: number;
 
   static calculateMusicalKey(spotifyKey: number, spotifyMode: number) {
     let tempKey = '';

@@ -14,7 +14,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let song of songs" (click)="updateCompatibleSongs(song._id)">
+            <tr *ngFor="let song of compatibleSongs" (click)="updateCompatibleSongs(song.key, song.mode)">
                 <td>{{ song.title }}</td>
                 <td>{{ song.artist }}</td>
                 <td>{{ song.bpm }}</td>

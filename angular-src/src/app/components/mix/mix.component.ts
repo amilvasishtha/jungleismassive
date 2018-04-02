@@ -10,7 +10,7 @@ import {Song} from '../Song';
 export class MixComponent implements OnInit {
 
   songs: Song[];
-  compatibleSongs: Object;
+  compatibleSongs: Song[];
 
   constructor(private songsService: SongsService) { }
 
@@ -21,6 +21,7 @@ export class MixComponent implements OnInit {
   getSongsInLibrary() {
     this.songsService.getSongs().subscribe(songs => {
       this.songs = songs;
+      this.compatibleSongs = this.songs;
       console.log("songs loaded in mix!");
     },
     err => {
@@ -33,12 +34,10 @@ export class MixComponent implements OnInit {
     return Song.calculateMusicalKey(spotifyKey, spotifyMode);
   }
 
-  updateCompatibleSongs(songid) {
-    // this.compatibleSongs = songs
-  }
-
-  getCompatibleKeys() {
-
+  updateCompatibleSongs(key, mode) {
+    this.compatibleSongs = this.songs.filter(song =>
+      (song.key == key || song.key == ((key-1 % 12)+12)%12 || song.key == ((key+1 % 12)+12)%12) && song.mode == mode
+    );
   }
 
 }

@@ -77,7 +77,15 @@ export class ManagesongsComponent implements OnInit {
     this.searchRes = null;
   }
 
+  convertToRelativeMinor() {
+    if(this.mode == 1) {
+      this.key = (this.key+9 % 12);
+      this.mode = 0;
+    }
+  }
+
   onCreateSongSubmit() {
+
     const song = {
       title: this.title,
       artist: this.artist,

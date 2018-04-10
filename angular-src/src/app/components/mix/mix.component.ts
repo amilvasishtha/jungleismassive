@@ -36,7 +36,7 @@ export class MixComponent implements OnInit {
 
   updateCompatibleSongs(key, mode) {
     this.compatibleSongs = this.songs.filter(song =>
-      (song.key == key || song.key == ((key-1 % 12)+12)%12 || song.key == ((key+1 % 12)+12)%12) && song.mode == mode
+      (song.key == key || song.key == (key+5 % 12) || song.key == (key+7 % 12)) && song.mode == mode
     );
   }
 
